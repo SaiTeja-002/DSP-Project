@@ -40,10 +40,12 @@ def processData(coordinates):
 		speeds.append(speedT)
 
 	return [distances,speeds]
+
 #Moving Average Filter
 def movingAverageFilter(dataSet,n):
 	distance,speed = [],[]
-	for i in range(0,len(dataSet[0])-n,n):
+
+	for i in range(0, len(dataSet[0])-n, n):
 		speed.append(sum(dataSet[1][i:i+n+1])/len(dataSet[1][i:i+n+1]))
 		distance.append(sum(dataSet[0][i:i+n+1])/len(dataSet[0][i:i+n+1]))
 	
@@ -51,8 +53,10 @@ def movingAverageFilter(dataSet,n):
 
 #Making The Data Set
 dataSets = [[]]*3
+
+
 for i in range(0,3):
-	fileName = input("Enter FileName "+str(i+1)+": ")
+	fileName = input("Enter FileName: ")
 	positionData = readContents(fileName)
 	dataSets[i] = processData(positionData)
 
@@ -60,17 +64,18 @@ for i in range(0,3):
 estimatedDistance = []
 minDistValues  = min([len(x[0]) for x in dataSets])
 for i in range(minDistValues):
-	estimatedDistance.append((dataSets[0][0][i]+dataSets[1][0][i]+dataSets[2][0][i])/3)
+    estimatedDistance.append((dataSets[0][0][i]+dataSets[1][0][i]+dataSets[2][0][i])/3)
 
 #Estimated Speed
 estimatedSpeed = []
 minSpeedValues = min([len(x[1]) for x in dataSets])
 for i in range(minSpeedValues):
-	estimatedSpeed.append((dataSets[0][1][i]+dataSets[1][1][i]+dataSets[2][1][i])/3)
+    estimatedSpeed.append((dataSets[0][1][i]+dataSets[1][1][i]+dataSets[2][1][i])/3)
 
 #Plotting Trails
 for i in range(3):
-	plt.subplot(3,2,i+1)
+	plt.figure(0)
+	plt.subplot(3,1,i+1)
 	plt.plot(dataSets[i][0], dataSets[i][1])
 	
 	#Plot Specifics
@@ -79,8 +84,10 @@ for i in range(3):
 	graph.set_xlabel("Distance (in m)")
 	graph.set_ylabel("Speed (in m/s)")
 
+plt.subplots_adjust(left=0.1,bottom=0.1, right=0.9, top=0.9, wspace=0.4,hspace=0.6)
+
 #Plotting Estimated Graphs
-plt.subplot(3,2,5)
+plt.figure(1)
 plt.plot(estimatedDistance, estimatedSpeed)
 
 #Plot Specifics
@@ -89,8 +96,9 @@ graph.set_title("Track Estimate")
 graph.set_xlabel("Distance (in m)")
 graph.set_ylabel("Speed (in m/s)")
 
-plt.subplot(3,2,6)
+# plt.subplot(3,2,6)
 smoother = movingAverageFilter([estimatedDistance,estimatedSpeed],7)
+plt.figure(2)
 plt.plot(smoother[0],smoother[1])
 
 #Plot Specifics
@@ -99,14 +107,5 @@ graph.set_title("Smoothened Esitmate")
 graph.set_xlabel("Distance (in m)")
 graph.set_ylabel("Speed (in m/s)")
 
-plt.subplots_adjust(left=0.1,bottom=0.1, right=0.9, top=0.9, wspace=0.4,hspace=0.6)
-
 #Displaying Plots
 plt.show()
-
-	
-
-	
-
-
-
