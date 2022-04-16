@@ -26,9 +26,9 @@ path = turtle.Turtle()
 path.hideturtle()
 
 #Drawing The Path
-for i in range(1,len(coordinates),stepSize):
+for i in range(stepSize+1,len(coordinates),stepSize):
 	#Co ordintates of Tail & Head
-	x1,y1 = coordinates[i-1]
+	x1,y1 = coordinates[i-stepSize]
 	x2,y2 = coordinates[i-0]
 
 	#Calculating Individual Components

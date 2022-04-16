@@ -40,12 +40,10 @@ def processData(coordinates):
 		speeds.append(speedT)
 
 	return [distances,speeds]
-
 #Moving Average Filter
 def movingAverageFilter(dataSet,n):
 	distance,speed = [],[]
-
-	for i in range(0, len(dataSet[0])-n, n):
+	for i in range(0,len(dataSet[0])-n,n):
 		speed.append(sum(dataSet[1][i:i+n+1])/len(dataSet[1][i:i+n+1]))
 		distance.append(sum(dataSet[0][i:i+n+1])/len(dataSet[0][i:i+n+1]))
 	
@@ -53,31 +51,21 @@ def movingAverageFilter(dataSet,n):
 
 #Making The Data Set
 dataSets = [[]]*3
-
-
 for i in range(0,3):
-	fileName = input("Enter FileName: ")
+	fileName = input("Enter FileName "+str(i+1)+": ")
 	positionData = readContents(fileName)
 	dataSets[i] = processData(positionData)
 
-
-# positionData = readContents("rawData0.txt")
-# dataSets[0] = processData(positionData)
-
-# positionData = readContents("rawData1.txt")
-# dataSets[1] = processData(positionData)
-
-# positionData = readContents("rawData2.txt")
-# dataSets[2] = processData(positionData)
-
 #Estimated Distance
 estimatedDistance = []
-for i in range(len(dataSets[0][0])):
+minDistValues  = min([len(x[0]) for x in dataSets])
+for i in range(minDistValues):
 	estimatedDistance.append((dataSets[0][0][i]+dataSets[1][0][i]+dataSets[2][0][i])/3)
 
 #Estimated Speed
 estimatedSpeed = []
-for i in range(len(dataSets[0][1])):
+minSpeedValues = min([len(x[1]) for x in dataSets])
+for i in range(minSpeedValues):
 	estimatedSpeed.append((dataSets[0][1][i]+dataSets[1][1][i]+dataSets[2][1][i])/3)
 
 #Plotting Trails
