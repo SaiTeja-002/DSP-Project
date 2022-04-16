@@ -45,9 +45,9 @@ def processData(coordinates):
 def movingAverageFilter(dataSet,n):
 	distance,speed = [],[]
 
-	for i in range(0, len(dataSet[0])-n, n):
-		speed.append(sum(dataSet[1][i:i+n+1])/len(dataSet[1][i:i+n+1]))
-		distance.append(sum(dataSet[0][i:i+n+1])/len(dataSet[0][i:i+n+1]))
+	for i in range(n, len(dataSet[0]), n):
+		speed.append(sum(dataSet[1][i-n:i])/n)
+		distance.append(sum(dataSet[0][i-n:i])/n)
 	
 	return [distance,speed]
 
@@ -56,7 +56,7 @@ dataSets = [[]]*3
 
 
 for i in range(0,3):
-	fileName = input("Enter FileName: ")
+	fileName = input("Enter FileName "+ str(i+1) +": ")
 	positionData = readContents(fileName)
 	dataSets[i] = processData(positionData)
 
@@ -109,3 +109,10 @@ graph.set_ylabel("Speed (in m/s)")
 
 #Displaying Plots
 plt.show()
+
+	
+
+	
+
+
+
